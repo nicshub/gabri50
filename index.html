@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karaoke - Buon Compleanno Gabriella</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-image: url('gabriella-principessa.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0);
+            z-index: 0;
+            animation: fadeOverlay 15s forwards;
+            backdrop-filter: blur(0px);
+        }
+
+        @keyframes fadeOverlay {
+            0%, 99.9% {
+                background: rgba(0, 0, 0, 0);
+                backdrop-filter: blur(0px);
+            }
+            100% {
+                background: rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(8px);
+            }
+        }
+        
+        .container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .play-pause-btn {
+            background: #fff;
+            color: #667eea;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-pause-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .lyrics {
+            color: #fff;
+            font-size: 2em;
+            line-height: 1.8;
+            text-align: center;
+            min-height: 250px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .line {
+            margin: 0;
+            transition: all 0.3s ease;
+            opacity: 0;
+            display: none;
+        }
+
+        .line.visible {
+            display: block;
+            opacity: 0.5;
+            color: #fff;
+        }
+
+        .line.active {
+            font-size: 1.3em;
+            font-weight: bold;
+            opacity: 1;
+            display: block;
+            color: #FFD700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+
+        .line.next {
+            opacity: 0.4;
+            display: block;
+            color: #fff;
+        }
+        
+        .time-control {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .time-slider {
+            flex: 1;
+            height: 12px;
+            background: linear-gradient(to right, #FFD700 0%, rgba(255, 255, 255, 0.3) 0%);
+            border-radius: 10px;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .time-slider::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .time-slider::-moz-range-track {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .time-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #FFD700;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+            margin-top: -6px;
+            border: 3px solid #fff;
+        }
+
+        .time-slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: #FFD700;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid #fff;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            color: #fff;
+            font-size: 0.9em;
+            margin-top: 10px;
+            padding: 0 5px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: #FFD700;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎤 Buon Compleanno Gabriella 🎉</h1>
+
+        <div class="time-control">
+            <div class="slider-container">
+                <button class="play-pause-btn" id="playPauseBtn">▶️</button>
+                <input type="range" class="time-slider" id="timeSlider" min="0" max="275" value="0" step="0.1">
+            </div>
+            <div class="time-display">
+                <span id="currentTime">0:00</span>
+                <span id="totalTime">4:35</span>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <div class="lyrics" id="lyrics"></div>
+    </div>
+    
+    <audio id="audio"></audio>
+    
+    <script>
+        const lyrics = [
+            { time: 0, text: "..." },
+            { time: 17, text: "La casa è piena di gente tutt'abbisata" },
+            { time: 22, text: "Questa bella serata sarà il tuo regalo" },
+            { time: 30, text: "Scarpe nuove e vestito abbinato" },
+            { time: 38, text: "Tutti in coro noi cantiamo per te" },
+            { time: 47, text: "Buon compleanno Gabriella," },
+            { time: 49, text: "stasera è la tua festa" },
+            { time: 51, text: "hai fatto cinquant'anni" },
+            { time: 54, text: "Stasera la più bella, una fotomodella, tu la protagonista." },
+            { time: 61, text: "Mamma chiagne ppa felicità," },
+            { time: 64, text: "Andrea è orgoglioso e te." },
+            { time: 66, text: "Le nipotine toi che t'abbracciano," },
+            { time: 69, text: "su tutti nmarurati, nisciunnu è come a te," },
+            { time: 78, text: "Buon compleanno Gabriella," },
+            { time: 81, text: "stasera è la tua festa" },
+            { time: 82, text: "hai fatto cinquant'anni" },
+            { time: 86, text: "Tanti auguri a te" },
+            { time: 94, text: "Con le tue amiche ti piace assai chiaccherare" },
+            { time: 101, text: "Da tutta Catania ti fai rispettare" },
+            { time: 107, text: "E le ruote non ti fai mai tagliare" },
+            { time: 118, text: "A dutturissa di tutti si fa amari" },
+            { time: 123, text: "Buon compleanno Gabriella," },
+            { time: 125, text: "stasera è la tua festa" },
+            { time: 128, text: "Ci stiamo divertendo" },
+            { time: 131, text: "Il bagno rinnovato è stato già ngignato" },
+            { time: 135, text: "Da tutto il parentato" },
+            { time: 139, text: "È grande la felicità, di festeggiare a te," },
+            { time: 143, text: "Con i tuoi riccioli, che si ingarbugliano," },
+            { time: 148, text: "Ma quello che è importante," },
+            { time: 148, text: "È che c'hai un cuore grande!" },
+            { time: 156, text: "Buon compleanno Gabriella," },
+            { time: 158, text: "stasera è la tua festa" },
+            { time: 160, text: "hai fatto cinquant'anni" },
+            { time: 162, text: "Tanti auguri amica nostra!" },
+            { time: 164, text: "Tanti auguri a te" }
+        ];
+        
+        const audio = document.getElementById('audio');
+        const lyricsDiv = document.getElementById('lyrics');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const progress = document.getElementById('progress');
+        const timeSlider = document.getElementById('timeSlider');
+        const currentTimeDisplay = document.getElementById('currentTime');
+        const totalTimeDisplay = document.getElementById('totalTime');
+
+        let currentLine = 0;
+        let isSeeking = false;
+        let isPlaying = false;
+
+        // Formatta tempo in mm:ss
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Crea le righe dei testi
+        lyrics.forEach((line, index) => {
+            const div = document.createElement('div');
+            div.className = 'line';
+            div.textContent = line.text;
+            div.id = `line-${index}`;
+            lyricsDiv.appendChild(div);
+        });
+
+        // Carica automaticamente il file audio
+        audio.src = 'DANIELE DE MARTINO BUON COMPLEANNO PRINCIPESSA KARAOKE.mp3';
+
+        // Slider per il tempo
+        timeSlider.addEventListener('input', () => {
+            isSeeking = true;
+            currentTimeDisplay.textContent = formatTime(timeSlider.value);
+        });
+
+        timeSlider.addEventListener('change', () => {
+            audio.currentTime = timeSlider.value;
+            isSeeking = false;
+        });
+
+        // Play/Pause toggle
+        playPauseBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                playPauseBtn.textContent = '▶️';
+                isPlaying = false;
+            } else {
+                audio.play();
+                playPauseBtn.textContent = '⏸️';
+                isPlaying = true;
+            }
+        });
+        
+        // Aggiorna testi durante la riproduzione
+        audio.addEventListener('timeupdate', () => {
+            const currentTime = audio.currentTime;
+
+            // Aggiorna slider e display del tempo solo se l'utente non sta trascinando
+            if (!isSeeking) {
+                timeSlider.value = currentTime;
+                currentTimeDisplay.textContent = formatTime(currentTime);
+            }
+
+            // Aggiorna barra di progresso
+            const progressPercent = (currentTime / 275) * 100; // 275 secondi = 4:35
+            progress.style.width = progressPercent + '%';
+
+            // Trova la riga corrente
+            for (let i = lyrics.length - 1; i >= 0; i--) {
+                if (currentTime >= lyrics[i].time) {
+                    if (currentLine !== i) {
+                        currentLine = i;
+                        updateLyrics();
+                    }
+                    break;
+                }
+            }
+        });
+        
+        // Fine canzone
+        audio.addEventListener('ended', () => {
+            playPauseBtn.textContent = '▶️';
+            isPlaying = false;
+        });
+        
+        function updateLyrics() {
+            lyrics.forEach((line, index) => {
+                const lineElement = document.getElementById(`line-${index}`);
+                lineElement.classList.remove('active', 'visible', 'next');
+
+                // Mostra solo 3 righe: precedente, corrente, successiva
+                if (index === currentLine - 1) {
+                    lineElement.classList.add('visible'); // Riga precedente
+                } else if (index === currentLine) {
+                    lineElement.classList.add('active'); // Riga corrente (gialla)
+                } else if (index === currentLine + 1) {
+                    lineElement.classList.add('next'); // Riga successiva
+                }
+            });
+        }
+    </script>
+</body>
+</html>
