@@ -241,6 +241,97 @@
             width: 0%;
             transition: width 0.1s linear;
         }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+
+            .audio-selector {
+                gap: 15px;
+                margin-bottom: 15px;
+            }
+
+            .radio-option {
+                font-size: 1em;
+            }
+
+            .lyrics {
+                font-size: 1.5em;
+                margin-top: 20px;
+                min-height: 200px;
+                gap: 20px;
+            }
+
+            .line.active {
+                font-size: 1.2em;
+            }
+
+            .play-pause-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2em;
+            }
+
+            .time-slider {
+                height: 16px;
+            }
+
+            .time-slider::-webkit-slider-thumb {
+                width: 28px;
+                height: 28px;
+                margin-top: -8px;
+            }
+
+            .time-slider::-moz-range-thumb {
+                width: 28px;
+                height: 28px;
+            }
+
+            .time-display {
+                font-size: 0.85em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .lyrics {
+                font-size: 1.3em;
+                gap: 15px;
+            }
+
+            .line.active {
+                font-size: 1.1em;
+            }
+
+            .audio-selector {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .slider-container {
+                gap: 10px;
+            }
+
+            .play-pause-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1em;
+            }
+        }
     </style>
 </head>
 <body>
