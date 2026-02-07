@@ -91,6 +91,30 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
+        .audio-selector {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            font-size: 1.1em;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #FFD700;
+        }
+
         .lyrics {
             color: #fff;
             font-size: 2em;
@@ -223,6 +247,17 @@
     <div class="container">
         <h1>🎤 Buon Compleanno Gabriella 🎉</h1>
 
+        <div class="audio-selector">
+            <label class="radio-option">
+                <input type="radio" name="audioTrack" value="karaoke" checked>
+                <span>🎤 Karaoke</span>
+            </label>
+            <label class="radio-option">
+                <input type="radio" name="audioTrack" value="base">
+                <span>🎵 Base</span>
+            </label>
+        </div>
+
         <div class="time-control">
             <div class="slider-container">
                 <button class="play-pause-btn" id="playPauseBtn">▶️</button>
@@ -310,8 +345,34 @@
             lyricsDiv.appendChild(div);
         });
 
-        // Carica automaticamente il file audio
-        audio.src = 'DANIELE DE MARTINO BUON COMPLEANNO PRINCIPESSA KARAOKE.mp3';
+        // File audio disponibili
+        const audioFiles = {
+            karaoke: 'DANIELE DE MARTINO BUON COMPLEANNO PRINCIPESSA KARAOKE.mp3',
+            base: 'base.mp3'
+        };
+
+        // Carica automaticamente il file audio karaoke
+        audio.src = audioFiles.karaoke;
+
+        // Gestione cambio traccia audio
+        const radioButtons = document.querySelectorAll('input[name="audioTrack"]');
+        radioButtons.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const wasPlaying = isPlaying;
+                const currentTimeValue = audio.currentTime;
+
+                // Cambia il file audio
+                audio.src = audioFiles[e.target.value];
+
+                // Se stava suonando, riprendi dalla stessa posizione
+                if (wasPlaying) {
+                    audio.currentTime = currentTimeValue;
+                    audio.play();
+                } else {
+                    audio.currentTime = currentTimeValue;
+                }
+            });
+        });
 
         // Slider per il tempo
         timeSlider.addEventListener('input', () => {
