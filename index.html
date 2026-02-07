@@ -91,30 +91,6 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .audio-selector {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #fff;
-            font-size: 1.1em;
-            cursor: pointer;
-        }
-
-        .radio-option input[type="radio"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: #FFD700;
-        }
-
         .lyrics {
             color: #fff;
             font-size: 2em;
@@ -257,15 +233,6 @@
                 margin-bottom: 20px;
             }
 
-            .audio-selector {
-                gap: 15px;
-                margin-bottom: 15px;
-            }
-
-            .radio-option {
-                font-size: 1em;
-            }
-
             .lyrics {
                 font-size: 1.5em;
                 margin-top: 20px;
@@ -317,11 +284,6 @@
                 font-size: 1.1em;
             }
 
-            .audio-selector {
-                flex-direction: column;
-                gap: 10px;
-            }
-
             .slider-container {
                 gap: 10px;
             }
@@ -337,17 +299,6 @@
 <body>
     <div class="container">
         <h1>🎤 Buon Compleanno Gabriella 🎉</h1>
-
-        <div class="audio-selector">
-            <label class="radio-option">
-                <input type="radio" name="audioTrack" value="karaoke" checked>
-                <span>🎤 Karaoke</span>
-            </label>
-            <label class="radio-option">
-                <input type="radio" name="audioTrack" value="base">
-                <span>🎵 Base</span>
-            </label>
-        </div>
 
         <div class="time-control">
             <div class="slider-container">
@@ -373,17 +324,17 @@
         const lyrics = [
             { time: 0, text: "..." },
             { time: 17, text: "La casa è piena di gente tutt'abbisata" },
-            { time: 22, text: "Questa bella serata sarà il tuo regalo" },
+            { time: 24, text: "Questa bella serata sarà il tuo regalo" },
             { time: 30, text: "Scarpe nuove e vestito abbinato" },
             { time: 38, text: "Tutti in coro noi cantiamo per te" },
             { time: 47, text: "Buon compleanno Gabriella," },
             { time: 49, text: "stasera è la tua festa" },
             { time: 51, text: "hai fatto cinquant'anni" },
             { time: 54, text: "Stasera la più bella, una fotomodella, tu la protagonista." },
-            { time: 61, text: "Mamma chiagne ppa felicità," },
+            { time: 61, text: "Mamma che chiagne ppa felicità," },
             { time: 64, text: "Andrea è orgoglioso e te." },
             { time: 66, text: "Le nipotine toi che t'abbracciano," },
-            { time: 69, text: "su tutti nmarurati, nisciunnu è come a te," },
+            { time: 69, text: "su tutti nnamurati, nisciunnu è come a te," },
             { time: 78, text: "Buon compleanno Gabriella," },
             { time: 81, text: "stasera è la tua festa" },
             { time: 82, text: "hai fatto cinquant'anni" },
@@ -392,15 +343,15 @@
             { time: 101, text: "Da tutta Catania ti fai rispettare" },
             { time: 107, text: "E le ruote non ti fai mai tagliare" },
             { time: 114, text: "A dutturissa di tutti si fa amari" },
-            { time: 123, text: "Buon compleanno Gabriella," },
-            { time: 125, text: "stasera è la tua festa" },
+            { time: 124, text: "Buon compleanno Gabriella," },
+            { time: 126, text: "stasera è la tua festa" },
             { time: 128, text: "Ci stiamo divertendo" },
             { time: 131, text: "Il bagno rinnovato è stato già ngignato" },
             { time: 135, text: "Da tutto il parentato" },
             { time: 139, text: "È grande la felicità, di festeggiare a te," },
             { time: 143, text: "Con i tuoi riccioli, che si ingarbugliano," },
             { time: 146, text: "Ma quello che è importante," },
-            { time: 148, text: "È che c'hai un cuore grande!" },
+            { time: 150, text: "È che c'hai un cuore grande!" },
             { time: 156, text: "Buon compleanno Gabriella," },
             { time: 158, text: "stasera è la tua festa" },
             { time: 160, text: "hai fatto cinquant'anni" },
@@ -436,34 +387,8 @@
             lyricsDiv.appendChild(div);
         });
 
-        // File audio disponibili
-        const audioFiles = {
-            karaoke: 'DANIELE DE MARTINO BUON COMPLEANNO PRINCIPESSA KARAOKE.mp3',
-            base: 'base.mp3'
-        };
-
-        // Carica automaticamente il file audio karaoke
-        audio.src = audioFiles.karaoke;
-
-        // Gestione cambio traccia audio
-        const radioButtons = document.querySelectorAll('input[name="audioTrack"]');
-        radioButtons.forEach(radio => {
-            radio.addEventListener('change', (e) => {
-                const wasPlaying = isPlaying;
-                const currentTimeValue = audio.currentTime;
-
-                // Cambia il file audio
-                audio.src = audioFiles[e.target.value];
-
-                // Se stava suonando, riprendi dalla stessa posizione
-                if (wasPlaying) {
-                    audio.currentTime = currentTimeValue;
-                    audio.play();
-                } else {
-                    audio.currentTime = currentTimeValue;
-                }
-            });
-        });
+        // Carica automaticamente il file audio base
+        audio.src = 'base.mp3';
 
         // Slider per il tempo
         timeSlider.addEventListener('input', () => {
